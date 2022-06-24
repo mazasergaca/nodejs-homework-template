@@ -8,7 +8,9 @@ const {
 } = require("../../services/api/constacts-service");
 
 const listContactsController = async (req, res) => {
-  const contacts = await listContacts();
+  const { _id } = req.user;
+
+  const contacts = await listContacts(_id);
 
   return res.status(200).json(contacts);
 };
@@ -30,7 +32,10 @@ const removeContactController = async (req, res) => {
 };
 
 const addContactController = async (req, res) => {
-  const contact = await addContact(req.body);
+  const { _id } = req.user;
+
+  const contact = await addContact(req.body, _id);
+
   return res.status(201).json(contact);
 };
 
