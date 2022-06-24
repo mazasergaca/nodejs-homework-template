@@ -9,6 +9,7 @@ const validationContact = (req, res, next) => {
       tlds: { allow: ["com", "net"] },
     }),
     phone: Joi.number(),
+    favorite: Joi.boolean(),
   });
 
   const validationResult = schema.validate(req.body);
