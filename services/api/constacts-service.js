@@ -1,7 +1,10 @@
 const { Contact } = require("../../models/contacts-model");
 
-const listContacts = async (owner) => {
-  return await Contact.find({ owner });
+const listContacts = async (owner, { skip, limit, favorite }) => {
+  return await Contact.find({ owner, favorite })
+    .select({ __v: 0 })
+    .skip(skip)
+    .limit(limit);
 };
 
 const getContactById = async (id) => {

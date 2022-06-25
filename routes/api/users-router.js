@@ -7,6 +7,7 @@ const {
   loginController,
   logoutController,
   currentUserController,
+  changesSubscriptionController,
 } = require("../../controllers/api/users-controller");
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.post("/login", validationUser, asyncWrapper(loginController));
 router.get("/logout", authMiddleware, asyncWrapper(logoutController));
 // get current user
 router.get("/current", authMiddleware, asyncWrapper(currentUserController));
+// changes subscription user
+router.patch("/", authMiddleware, asyncWrapper(changesSubscriptionController));
 
 module.exports = router;

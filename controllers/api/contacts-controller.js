@@ -10,7 +10,11 @@ const {
 const listContactsController = async (req, res) => {
   const { _id } = req.user;
 
-  const contacts = await listContacts(_id);
+  let { page = 1, limit = 20, favorite = [true, false] } = req.query;
+
+  const skip = (page - 1) * limit;
+
+  const contacts = await listContacts(_id, { skip, limit, favorite });
 
   return res.status(200).json(contacts);
 };

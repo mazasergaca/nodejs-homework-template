@@ -61,9 +61,15 @@ const currentUser = async (id) => {
   return user;
 };
 
+const changesSubscription = async ({ id, subscription }) => {
+  const user = await User.findOneAndUpdate(id, { subscription }, { new: true });
+  return user;
+};
+
 module.exports = {
   registration,
   login,
   logout,
   currentUser,
+  changesSubscription,
 };
