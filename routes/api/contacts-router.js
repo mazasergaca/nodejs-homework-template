@@ -3,6 +3,7 @@ const { asyncWrapper } = require("../../helpers/api-helpers");
 const {
   validationContact,
 } = require("../../middlewares/validation-middleware");
+const { authMiddleware } = require("../../middlewares/auth-middleware");
 const {
   listContactsController,
   getContactByIdController,
@@ -13,6 +14,8 @@ const {
 } = require("../../controllers/api/contacts-controller.js");
 
 const router = express.Router();
+
+router.use(asyncWrapper(authMiddleware));
 
 // get all contacts
 router.get("/", asyncWrapper(listContactsController));

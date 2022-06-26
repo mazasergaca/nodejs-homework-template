@@ -12,7 +12,23 @@ class ValidationError extends ApiErrors {
   }
 }
 
+class EmailDuplicateError extends ApiErrors {
+  constructor(message) {
+    super(message);
+    this.status = 409;
+  }
+}
+
+class NotAuthorizedError extends ApiErrors {
+  constructor(message) {
+    super(message);
+    this.status = 401;
+  }
+}
+
 module.exports = {
   ApiErrors,
   ValidationError,
+  EmailDuplicateError,
+  NotAuthorizedError,
 };

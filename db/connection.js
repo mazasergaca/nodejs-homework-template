@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const db = `mongodb+srv://${process.env.NAME_USER}:${process.env.PASSWORD_USER}@cluster0.jysjo.mongodb.net/${process.env.NAME_BASE}?retryWrites=true&w=majority`;
 
