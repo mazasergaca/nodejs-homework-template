@@ -1,10 +1,14 @@
+const fs = require("fs").promises;
+const path = require("path");
 const {
   registration,
   login,
   logout,
   currentUser,
   changesSubscription,
+  updateAvatar,
 } = require("../../services/api/users-service");
+const { getResizeAvatar } = require("../../helpers/resize-avatar");
 
 const registrationController = async (req, res) => {
   const { email, password } = req.body;
@@ -58,10 +62,33 @@ const changesSubscriptionController = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const updateAvatarController = async (req, res, next) => {
+  const { path: tempUpload, originalname } = req.file;
+  const { _id } = req.user;
+  const imageName = `${_id}_${originalname}`;
+  await getResizeAvatar(tempUpload);
+
+  try {
+    const resultUpload = path.join(path.resolve("./public/avatars"), imageName);
+    await fs.rename(tempUpload, resultUpload);
+
+    const avatarURL = path.join("avatars", imageName);
+
+    const user = await updateAvatar(_id, avatarURL);
+    res.status(200).json({ avatarURL: user.avatarURL });
+  } catch (error) {
+    await fs.unlink(tempUpload);
+    return next(error);
+  }
+
+  res.status(200);
+};
+
 module.exports = {
   registrationController,
   loginController,
   logoutController,
   currentUserController,
   changesSubscriptionController,
+  updateAvatarController,
 };

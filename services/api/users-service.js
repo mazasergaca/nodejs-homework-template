@@ -5,14 +5,15 @@ const {
   EmailDuplicateError,
   NotAuthorizedError,
 } = require("../../helpers/errors");
+const gravatar = require("gravatar");
 
 const registration = async ({ email, password }) => {
   const userByEmail = await User.findOne({ email });
   if (userByEmail) {
     throw new EmailDuplicateError("Email in use");
   }
-
-  const user = new User({ email, password });
+  const avatarURL = gravatar.url(email, { s: "200", r: "pg", d: "404" });
+  const user = new User({ email, password, avatarURL });
   await user.save();
 
   return user;
@@ -66,10 +67,16 @@ const changesSubscription = async ({ id, subscription }) => {
   return user;
 };
 
+const updateAvatar = async (id, avatarURL) => {
+  const user = await User.findByIdAndUpdate(id, { avatarURL }, { new: true });
+  return user;
+};
+
 module.exports = {
   registration,
   login,
   logout,
   currentUser,
   changesSubscription,
+  updateAvatar,
 };
