@@ -12,6 +12,13 @@ class ValidationError extends ApiErrors {
   }
 }
 
+class BadRequestError extends ApiErrors {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
+
 class EmailDuplicateError extends ApiErrors {
   constructor(message) {
     super(message);
@@ -26,9 +33,18 @@ class NotAuthorizedError extends ApiErrors {
   }
 }
 
+class NotFoundError extends ApiErrors {
+  constructor(message) {
+    super(message);
+    this.status = 404;
+  }
+}
+
 module.exports = {
   ApiErrors,
   ValidationError,
+  BadRequestError,
   EmailDuplicateError,
   NotAuthorizedError,
+  NotFoundError,
 };

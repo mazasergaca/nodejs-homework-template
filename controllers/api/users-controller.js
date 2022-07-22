@@ -84,6 +84,23 @@ const updateAvatarController = async (req, res, next) => {
   res.status(200);
 };
 
+const verificationController = async (req, res, next) => {
+  const { verificationToken } = req.params;
+
+  await verification(verificationToken);
+  res.status(200).json({ message: "Verification successful" });
+};
+
+const verifyController = async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    res.status(400).json({ message: "missing required field email" });
+  }
+
+  await verify(email);
+  res.status(200).json({ message: "Verification email sent" });
+};
+
 module.exports = {
   registrationController,
   loginController,
@@ -91,4 +108,6 @@ module.exports = {
   currentUserController,
   changesSubscriptionController,
   updateAvatarController,
+  verificationController,
+  verifyController,
 };
