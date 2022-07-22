@@ -10,6 +10,8 @@ const {
   currentUserController,
   changesSubscriptionController,
   updateAvatarController,
+  verificationController,
+  verifyController,
 } = require("../../controllers/api/users-controller");
 
 const router = express.Router();
@@ -31,5 +33,9 @@ router.patch(
   uploadMiddleware.single("avatar"),
   asyncWrapper(updateAvatarController)
 );
+// get user by the verificationToken parameter
+router.get("/verify/:verificationToken", asyncWrapper(verificationController));
+//
+router.post("/verify", asyncWrapper(verifyController));
 
 module.exports = router;
